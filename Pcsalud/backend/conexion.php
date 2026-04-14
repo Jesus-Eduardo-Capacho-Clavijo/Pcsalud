@@ -13,11 +13,22 @@ function envOrDefault(string $key, string $default): string
     return $value;
 }
 
-$host = envOrDefault('DB_HOST', 'localhost');
-$port = envOrDefault('DB_PORT', '3306');
-$db = envOrDefault('DB_NAME', 'pcsalud');
-$user = envOrDefault('DB_USER', 'root');
-$pass = envOrDefault('DB_PASS', '');
+function envFromMany(array $keys, string $default): string
+{
+    foreach ($keys as $key) {
+        $value = getenv($key);
+        if ($value !== false && $value !== '') {
+            return $value;
+        }
+    }
+    return $default;
+}
+
+$host = envFromMany(['DB_HOST', 'MYSQLHOST'], 'localhost');
+$port = envFromMany(['DB_PORT', 'MYSQLPORT'], '3306');
+$db = envFromMany(['DB_NAME', 'MYSQLDATABASE', 'MYSQL_DATABASE'], 'pcsalud');
+$user = envFromMany(['DB_USER', 'MYSQLUSER'], 'root');
+$pass = envFromMany(['DB_PASS', 'MYSQLPASSWORD', 'MYSQL_ROOT_PASSWORD'], '');
 $charset = envOrDefault('DB_CHARSET', 'utf8mb4');
 $appEnv = envOrDefault('APP_ENV', 'local');
 
