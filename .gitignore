@@ -1,0 +1,12 @@
+# Environment
+.env
+
+# Local uploads (keep folder, ignore generated evidence)
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# IDE / OS
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
